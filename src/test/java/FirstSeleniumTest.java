@@ -1,52 +1,54 @@
 import org.junit.*;
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import java.util.*;  
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.*;
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+import org.openqa.selenium.support.ui.*;
 
 
 public class FirstSeleniumTest {
-    public WebDriver driver;
-    
+
+    private WebDriver driver;
+    private WebDriverWait wait;
+
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
-
         driver = new ChromeDriver();
         driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, 10);
     }
-    
-    @Test
-    public void testSearch() {
-        MainPage mainPage = new MainPage(this.driver);
-        Assert.assertTrue(mainPage.getFooterText().contains("2021 ELTE Faculty of Informatics"));
-               
-        SearchResultPage searchResultPage = mainPage.search("Students");
-        String bodyText = searchResultPage.getBodyText();
-        Assert.assertTrue(bodyText.contains("found"));
-        Assert.assertTrue(bodyText.contains("For Students"));
-    }
-    
-    @Test
-    public void testSearch2() {
-        String[] searchQueries={"something","","xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"};  
-        for(String searchQuery : searchQueries) {  
-            MainPage mainPage = new MainPage(this.driver);
-            SearchResultPage searchResultPage = mainPage.search(searchQuery);
-            String bodyText = searchResultPage.getBodyText();
-            Assert.assertTrue(bodyText.contains("found"));
-        }  
-    }
-    
 
+    @Test
+    public void simplePageTest1() {
+        MainPage mainPage = new MainPage(this.driver);
+
+        System.out.println(mainPage.getBodyText());
+        Assert.assertTrue(mainPage.getBodyText().contains("This is a collection of sample web pages"));
+        
+        mainPage.openSearchToggler();
+        SearchResultPage searchResultPage = mainPage.search("Feras");
+
+        System.out.println(searchResultPage.getBodyText());
+        Assert.assertTrue(searchResultPage.getBodyText().contains("A new password has been sent to Feras"));
+        
+    }
+
+    @Test
+    public void simplePageTest2() {
+        MainPage mainPage = new MainPage(this.driver);
+
+        System.out.println(mainPage.getBodyText());
+        Assert.assertTrue(mainPage.getBodyText().contains("This is a collection of sample web pages"));
+        
+        mainPage.openSearchToggler();
+        SearchResultPage searchResultPage = mainPage.search("something");
+
+        System.out.println(searchResultPage.getBodyText());
+        Assert.assertTrue(searchResultPage.getBodyText().contains("A new password has been sent to something"));
+        
+    }
     
     @After
     public void close() {
