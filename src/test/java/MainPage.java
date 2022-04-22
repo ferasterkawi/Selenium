@@ -7,22 +7,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage extends PageBase {
 
-    private final By searchTogglerLocator = By.id("requestPassword");
-    private final By searchLocator = By.id("account");
+    private final By logInLocator = By.xpath("//ul[@id = 'top-menu']/li[@class='menu-item menu-item-type-custom menu-item-object-custom menu-item-20399']/a");
 
     public MainPage(WebDriver driver){
         super(driver);
-        this.driver.get("http://selenium.thinkcode.se");
+        this.driver.get("https://www.theconstructsim.com/");
     }
 
-    public void openSearchToggler(){
-        WebElement searchTogglerElement = waitVisibiiltyAndFindElement(searchTogglerLocator);
-        searchTogglerElement.click();
-    }
-
-    public SearchResultPage search(String searchQuery){
-        WebElement searchBarElement = waitVisibiiltyAndFindElement(searchLocator);
-        searchBarElement.sendKeys(searchQuery + "\n");
-        return new SearchResultPage(this.driver);
+    public LogInPage openLoginPage(){
+        WebElement loginButtonElement = waitVisibiiltyAndFindElement(logInLocator);
+        loginButtonElement.click();
+        return new LogInPage(this.driver);
     }
 }

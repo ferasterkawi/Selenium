@@ -21,6 +21,11 @@ public class PageBase {
         return this.driver.findElement(locator);
     }
 
+    protected WebElement findElement(By locator){
+        // this.wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return this.driver.findElement(locator);
+    }
+
     public String getBodyText(){
         WebElement resultElement = this.waitVisibiiltyAndFindElement(bodyLocator);
         return resultElement.getText();
