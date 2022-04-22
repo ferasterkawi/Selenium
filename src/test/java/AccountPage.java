@@ -12,7 +12,9 @@ public class AccountPage extends PageBase {
     private final By searchLocator = By.xpath("//div[@class='v-toolbar__content']/div[2]/div[1]/div/div/div[2]/input");
     private final By allResultsLocator = By.xpath("//div[@class='v-card__subtitle']/span/a");
     private final By searchResultsLocator = By.xpath("//div[@class='container']/h3");
-
+    private final By profileLocator = By.xpath("//div[@class='v-list v-sheet theme--light']/a/div");
+    private final By resumeLocator = By.xpath("/html/body/div[1]/div[1]/main/div/div/div[1]/div[2]/div[1]/div[1]/h2");
+    
     protected WebDriverWait wait;
 
     public AccountPage(WebDriver driver){
@@ -40,6 +42,13 @@ public class AccountPage extends PageBase {
         allResultsElement.click();
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(searchResultsLocator));
         return new SearchResultPage(this.driver);
+    }
+
+    public ProfilePage pressProfile(){
+        WebElement profileButtonElement = waitVisibiiltyAndFindElement(profileLocator);
+        profileButtonElement.click();
+        this.wait.until(ExpectedConditions.visibilityOfElementLocated(resumeLocator));
+        return new ProfilePage(this.driver);
     }
 
 }

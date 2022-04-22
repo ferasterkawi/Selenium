@@ -13,11 +13,13 @@ public class SearchResultPage extends PageBase {
 
     public SearchResultPage(WebDriver driver){
         super(driver);
+        this.wait = new WebDriverWait(driver, 10);
     }
 
-    public void pressHome(){
+    public AccountPage pressHome(){
         WebElement acountButtonElement = findElement(homeLocator);
         acountButtonElement.click();
+        return new AccountPage(this.driver);
     }
 
     public void pressAccount(){

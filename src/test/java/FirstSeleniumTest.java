@@ -42,32 +42,46 @@ public class FirstSeleniumTest {
         SearchResultPage searchResultPage = accountPage.search("ros basics in 5 days");        
         System.out.println(searchResultPage.getBodyText());
         Assert.assertTrue(searchResultPage.getBodyText().contains("Search Courses"));
-        searchResultPage.pressHome();
-        searchResultPage.pressAccount();
 
-        // Logout and return back to loginPage
+        // Back to accountPage Logout and return back to loginPage
+        AccountPage accountPage2 = searchResultPage.pressHome();
+        accountPage2.pressAccount();
         LogInPage loginPage2 = searchResultPage.pressLogout();
         
     }
 
-    // @Test
-    // public void simplePageTest2() {
-    //     // Open the mainPage
-    //     MainPage mainPage = new MainPage(this.driver);
-    //     System.out.println(mainPage.getBodyText());
-    //     Assert.assertTrue(mainPage.getBodyText().contains("Develop the Robots of the Future"));
+    // Send 2 forms test
+    @Test
+    public void simplePageTest2() {
+        // Open the mainPage
+        MainPage mainPage = new MainPage(this.driver);
+        System.out.println(mainPage.getBodyText());
+        Assert.assertTrue(mainPage.getBodyText().contains("Develop the Robots of the Future"));
 
-    //     // Open loginPage
-    //     LogInPage loginPage = mainPage.openLoginPage();
-    //     loginPage.enterUserName("janal97815");
-    //     loginPage.enterPassword("hbUpw4yNLXVz83j");
+        // Open loginPage
+        LogInPage loginPage = mainPage.openLoginPage();
+        loginPage.enterUserName("janal97815");
+        loginPage.enterPassword("hbUpw4yNLXVz83j");
 
-    //     // Open AccountPage
-    //     AccountPage accountPage = loginPage.pressLogin();
-    //     System.out.println(accountPage.getBodyText());
-    //     Assert.assertTrue(accountPage.getBodyText().contains("Learning Paths"));
-        
-    // }
+        // Open AccountPage
+        AccountPage accountPage = loginPage.pressLogin();
+        System.out.println(accountPage.getBodyText());
+        Assert.assertTrue(accountPage.getBodyText().contains("Learning Paths"));
+
+        // Enter My Profile
+        accountPage.pressAccount();
+        ProfilePage profilePage = accountPage.pressProfile();
+        System.out.println(profilePage.getBodyText());
+        Assert.assertTrue(profilePage.getBodyText().contains("Online Resume"));
+
+        // Add social account
+        profilePage.openEditProfile();
+        profilePage.fillForm1("janal j","st. j","budapest","Software Eng","https://twitter.com/janal97815", "https://github.com/janal97815");
+
+        // Add new experience
+        profilePage.addExperience();
+        profilePage.fillForm2("janaljanal", "janaljanaljanaljanal", "janal", "janal");
+    }
     
     @After
     public void close() {
