@@ -13,19 +13,18 @@ public class FirstSeleniumTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    ConfigFileReader configFileReader;
+    private ConfigFileReader configFileReader;
 
     @Before
     public void setup() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        wait = new WebDriverWait(driver, 10);
         configFileReader= new ConfigFileReader();
-
+        wait = new WebDriverWait(driver, configFileReader.getTimeout());
     }
 
-    // Searching Test
+    // Login + Searching + Logout Tests
     @Test
     public void simplePageTest1() {
         // Open the mainPage

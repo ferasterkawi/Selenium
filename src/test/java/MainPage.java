@@ -9,9 +9,12 @@ public class MainPage extends PageBase {
 
     private final By logInLocator = By.xpath("//ul[@id = 'top-menu']/li[@class='menu-item menu-item-type-custom menu-item-object-custom menu-item-20399']/a");
 
+    private ConfigFileReader configFileReader;
+
     public MainPage(WebDriver driver){
         super(driver);
-        this.driver.get("https://www.theconstructsim.com/");
+        configFileReader= new ConfigFileReader();
+        this.driver.get(configFileReader.getURL());
     }
 
     public LogInPage openLoginPage(){
