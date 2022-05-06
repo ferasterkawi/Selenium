@@ -2,6 +2,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -14,6 +15,7 @@ public class FirstSeleniumTest {
     private WebDriver driver;
     private WebDriverWait wait;
     private ConfigFileReader configFileReader;
+    private final By bodyLocator = By.tagName("body");
 
     @Before
     public void setup() {
@@ -76,7 +78,7 @@ public class FirstSeleniumTest {
         accountPage.pressAccount();
         ProfilePage profilePage = accountPage.pressProfile();
         System.out.println(profilePage.getBodyText());
-        Assert.assertTrue(profilePage.getBodyText().contains("Online Resume"));
+        Assert.assertTrue(profilePage.getBodyText().contains(configFileReader.getProfilePagePhrase()));
 
         // Add social account
         profilePage.openEditProfile();
@@ -85,6 +87,25 @@ public class FirstSeleniumTest {
         // Add new experience
         profilePage.addExperience();
         profilePage.fillForm2(configFileReader.title(), configFileReader.description(), configFileReader.company(),configFileReader.website());
+    }
+
+    @Test
+    public void multiplePagesTest() {
+        String[] urls;
+        urls= configFileReader.urlArray();
+        String[] titles;
+        titles= configFileReader.titleArray();
+
+        for (int i = 0; i < urls.length; ++ i) {
+            System.out.print("Abu Alfawares");
+
+            AnyPage anyPage = new AnyPage(this.driver,urls[i]);
+            System.out.println(anyPage.getBodyText());
+            Assert.assertTrue(anyPage.getBodyText().contains(titles[i]));
+
+            System.out.print(urls[i]);
+            System.out.print(titles[i]);
+        }
     }
     
     @After

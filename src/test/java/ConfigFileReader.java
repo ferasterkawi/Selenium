@@ -146,4 +146,18 @@ public class ConfigFileReader {
 		else throw new RuntimeException("website not specified in the Configuration.properties file.");		
 	}
 
+	// Multiple pages test laoding function
+	public String[] urlArray(){
+		String urlArray = properties.getProperty("urlArray");
+		String[]values = urlArray.split(",");
+		if(values!= null) return values;
+		else throw new RuntimeException("urlArray not specified in the Configuration.properties file.");		
+	}
+
+	public String[] titleArray(){
+		String titleArray = properties.getProperty("titleArray");
+		String[]values = titleArray.split(",");
+		if(values!= null) return values;
+		else throw new RuntimeException("titleArray not specified in the Configuration.properties file.");		
+	}
 }
