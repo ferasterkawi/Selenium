@@ -1,16 +1,19 @@
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.*;
 import io.github.bonigarcia.wdm.WebDriverManager;
-
-import org.openqa.selenium.support.ui.*;
 
 
 public class FirstSeleniumTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
+    ConfigFileReader configFileReader;
 
     @Before
     public void setup() {
@@ -18,6 +21,8 @@ public class FirstSeleniumTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         wait = new WebDriverWait(driver, 10);
+        configFileReader= new ConfigFileReader();
+
     }
 
     // Searching Test
@@ -26,22 +31,22 @@ public class FirstSeleniumTest {
         // Open the mainPage
         MainPage mainPage = new MainPage(this.driver);
         System.out.println(mainPage.getBodyText());
-        Assert.assertTrue(mainPage.getBodyText().contains("Develop the Robots of the Future"));
+        Assert.assertTrue(mainPage.getBodyText().contains(configFileReader.getMainPagePhrase()));
 
         // Open loginPage
         LogInPage loginPage = mainPage.openLoginPage();
-        loginPage.enterUserName("janal97815");
-        loginPage.enterPassword("hbUpw4yNLXVz83j");
+        loginPage.enterUserName(configFileReader.getUserName());
+        loginPage.enterPassword(configFileReader.getPassword());
 
         // Open AccountPage
         AccountPage accountPage = loginPage.pressLogin();
         System.out.println(accountPage.getBodyText());
-        Assert.assertTrue(accountPage.getBodyText().contains("Learning Paths"));
+        Assert.assertTrue(accountPage.getBodyText().contains(configFileReader.getAccountPagePhrase()));
         
         // Start searching
-        SearchResultPage searchResultPage = accountPage.search("ros basics in 5 days");        
+        SearchResultPage searchResultPage = accountPage.search(configFileReader.getSearchPhrase());        
         System.out.println(searchResultPage.getBodyText());
-        Assert.assertTrue(searchResultPage.getBodyText().contains("Search Courses"));
+        Assert.assertTrue(searchResultPage.getBodyText().contains(configFileReader.getResultPagePhrase()));
 
         // Back to accountPage Logout and return back to loginPage
         AccountPage accountPage2 = searchResultPage.pressHome();
@@ -56,17 +61,17 @@ public class FirstSeleniumTest {
         // Open the mainPage
         MainPage mainPage = new MainPage(this.driver);
         System.out.println(mainPage.getBodyText());
-        Assert.assertTrue(mainPage.getBodyText().contains("Develop the Robots of the Future"));
+        Assert.assertTrue(mainPage.getBodyText().contains(configFileReader.getMainPagePhrase()));
 
         // Open loginPage
         LogInPage loginPage = mainPage.openLoginPage();
-        loginPage.enterUserName("janal97815");
-        loginPage.enterPassword("hbUpw4yNLXVz83j");
+        loginPage.enterUserName(configFileReader.getUserName());
+        loginPage.enterPassword(configFileReader.getPassword());
 
         // Open AccountPage
         AccountPage accountPage = loginPage.pressLogin();
         System.out.println(accountPage.getBodyText());
-        Assert.assertTrue(accountPage.getBodyText().contains("Learning Paths"));
+        Assert.assertTrue(accountPage.getBodyText().contains(configFileReader.getAccountPagePhrase()));
 
         // Enter My Profile
         accountPage.pressAccount();
@@ -76,11 +81,11 @@ public class FirstSeleniumTest {
 
         // Add social account
         profilePage.openEditProfile();
-        profilePage.fillForm1("janal j","st. j","budapest","Software Eng","https://twitter.com/janal97815", "https://github.com/janal97815");
+        profilePage.fillForm1(configFileReader.firstname(),configFileReader.lastname(),configFileReader.place(),configFileReader.info(),configFileReader.twitter(),configFileReader.github());
 
         // Add new experience
         profilePage.addExperience();
-        profilePage.fillForm2("janaljanal", "janaljanaljanaljanal", "janal", "janal");
+        profilePage.fillForm2(configFileReader.title(), configFileReader.description(), configFileReader.company(),configFileReader.website());
     }
     
     @After
