@@ -3,6 +3,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.JavascriptExecutor;
 
 
 public class LogInPage extends PageBase {
@@ -13,10 +14,12 @@ public class LogInPage extends PageBase {
     private final By accountLocator = By.xpath("//div[@class ='d-flex']");
 
     protected WebDriverWait wait;
+    protected JavascriptExecutor executor;
 
     public LogInPage(WebDriver driver){
         super(driver);
         this.wait = new WebDriverWait(driver, 10);
+        this.executor = (JavascriptExecutor)driver;
 
     }
 
@@ -30,9 +33,11 @@ public class LogInPage extends PageBase {
         searchBarElement.sendKeys(passQuery + "\n");
     }
 
+    // Pressing Login with JavascriptExecutor
     public AccountPage pressLogin(){
         WebElement loginButtonElement = waitVisibiiltyAndFindElement(logInLocator);
-        loginButtonElement.click();
+        executor.executeScript("arguments[0].click();", loginButtonElement);
+        //loginButtonElement.click();
         this.wait.until(ExpectedConditions.visibilityOfElementLocated(accountLocator));
         return new AccountPage(this.driver);
     }
