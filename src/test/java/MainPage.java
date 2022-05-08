@@ -3,6 +3,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.Actions;
 
 
 public class MainPage extends PageBase {
@@ -17,9 +18,15 @@ public class MainPage extends PageBase {
         this.driver.get(configFileReader.getURL());
     }
 
+    // Open LogInPage using Mouse Hover
     public LogInPage openLoginPage(){
         WebElement loginButtonElement = waitVisibiiltyAndFindElement(logInLocator);
-        loginButtonElement.click();
+        //loginButtonElement.click();
+        Actions action = new Actions(driver);
+        action.moveToElement(loginButtonElement).perform();
+        action.click().build().perform();
+        System.out.println("Done Mouse hover on loginButtonElement");
+
         return new LogInPage(this.driver);
     }
 }
