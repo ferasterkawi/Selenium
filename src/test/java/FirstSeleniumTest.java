@@ -88,7 +88,8 @@ public class FirstSeleniumTest {
     //     profilePage.addExperience();
     //     profilePage.fillForm2(configFileReader.title(), configFileReader.description(), configFileReader.company(),configFileReader.website());
     // }
-
+    
+    // multiplePagesTest + History Test
     @Test
     public void multiplePagesTest() {
         String[] urls;
@@ -106,6 +107,8 @@ public class FirstSeleniumTest {
             System.out.println(anyPage.getBodyText());
             Assert.assertTrue(anyPage.getBodyText().contains(titles[i]));
         }
+        driver.navigate().back();
+        driver.navigate().back();
     }
     
     @After
